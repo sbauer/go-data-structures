@@ -31,3 +31,21 @@ func Test_InsertMovesPreviousHeadToNext(t *testing.T) {
 	assert.Equal(t, "second insert", list.head.data)
 	assert.Equal(t, "first insert", list.head.next.data)
 }
+
+func Test_AppendCreatesNewHeadWithEmptyList(t *testing.T) {
+	list := &LinkedList{}
+
+	list.Append("first")
+
+	assert.NotNil(t, list.head)
+	assert.Equal(t, "first", list.head.data)
+}
+
+func Test_AppendAddsNodeToEnd(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+	list.Append("appended")
+
+	assert.NotNil(t, list.head.next)
+	assert.Equal(t, "appended", list.head.next.data)
+}
