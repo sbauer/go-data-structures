@@ -14,7 +14,7 @@ func (list *LinkedList) Insert(data interface{}) {
 	newNode := &Node{data: data, next: list.head}
 
 	list.head = newNode
-	list.length++
+	list.incrementLength()
 }
 
 func (list *LinkedList) Append(data interface{}) {
@@ -22,6 +22,7 @@ func (list *LinkedList) Append(data interface{}) {
 
 	if list.head == nil {
 		list.head = newNode
+		list.incrementLength()
 		return
 	}
 
@@ -31,7 +32,7 @@ func (list *LinkedList) Append(data interface{}) {
 	}
 
 	current.next = newNode
-	list.length++
+	list.incrementLength()
 }
 
 func (list *LinkedList) Contains(data interface{}) bool {
@@ -89,6 +90,40 @@ func (list *LinkedList) Remove(node *Node) bool {
 	return false
 }
 
+func (list *LinkedList) RemoveByValue(data interface{}) bool {
+	if list.head == nil {
+		return false
+	}
+
+	if list.head.data == data {
+		list.head = list.head.next
+		list.decrementLength()
+		return true
+	}
+
+	current := list.head
+
+	for current.next != nil {
+		if current.next.data == data {
+			current.next = current.next.next
+			list.decrementLength()
+			return true
+		}
+
+		current = current.next
+	}
+
+	return false
+}
+
+func (list *LinkedList) Length() int {
+	return list.length
+}
+
 func (list *LinkedList) decrementLength() {
 	list.length--
+}
+
+func (list *LinkedList) incrementLength() {
+	list.length++
 }

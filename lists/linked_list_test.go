@@ -32,6 +32,15 @@ func Test_InsertMovesPreviousHeadToNext(t *testing.T) {
 	assert.Equal(t, "first insert", list.head.next.data)
 }
 
+func Test_InsertIncrementsLength(t *testing.T) {
+	list := &LinkedList{}
+
+	list.Insert("first insert")
+	list.Insert("second insert")
+
+	assert.Equal(t, 2, list.length)
+}
+
 func Test_AppendCreatesNewHeadWithEmptyList(t *testing.T) {
 	list := &LinkedList{}
 
@@ -48,6 +57,14 @@ func Test_AppendAddsNodeToEnd(t *testing.T) {
 
 	assert.NotNil(t, list.head.next)
 	assert.Equal(t, "appended", list.head.next.data)
+}
+
+func Test_AppendShouldIncrementLength(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+	list.Append("appended")
+
+	assert.Equal(t, 2, list.length)
 }
 
 func Test_ContainsShouldReturnFalseForEmptyList(t *testing.T) {
@@ -168,4 +185,56 @@ func Test_RemoveShouldDecreaseLengthAfterRemovingNode(t *testing.T) {
 	assert.Equal(t, 1, list.length)
 	assert.True(t, list.Remove(node))
 	assert.Equal(t, 0, list.length)
+}
+
+func Test_RemoveByValueShouldReturnFalseForEmptyList(t *testing.T) {
+	list := &LinkedList{}
+
+	assert.False(t, list.RemoveByValue("node"))
+}
+
+func Test_RemoveByValueShouldReturnFalseForNoNodeMatches(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	assert.False(t, list.RemoveByValue("node"))
+}
+
+func Test_RemoveByValueShouldReturnTrueAfterRemovingHeadNode(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	assert.True(t, list.RemoveByValue("first"))
+	assert.False(t, list.Contains("first"))
+}
+
+func Test_RemoveByValueShouldReturnTrueAfterRemovingSecondaryNode(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+	list.Append("second")
+
+	assert.True(t, list.RemoveByValue("second"))
+	assert.False(t, list.Contains("second"))
+}
+
+func Test_RemoveByValueShouldDecreaseLengthAfterRemovingNode(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	assert.Equal(t, 1, list.length)
+	assert.True(t, list.RemoveByValue("first"))
+	assert.Equal(t, 0, list.length)
+}
+
+func Test_LengthReturnsZeroForEmptyList(t *testing.T) {
+	list := &LinkedList{}
+
+	assert.Equal(t, 0, list.Length())
+}
+
+func Test_LengthReturnsLengthField(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	assert.Equal(t, list.length, list.Length())
 }
