@@ -35,10 +35,6 @@ func (list *LinkedList) Append(data interface{}) {
 }
 
 func (list *LinkedList) Exists(data interface{}) bool {
-	if list.head == nil {
-		return false
-	}
-
 	current := list.head
 
 	for current != nil {
