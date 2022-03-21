@@ -57,3 +57,38 @@ func (list *LinkedList) find(data interface{}) *Node {
 
 	return nil
 }
+
+func (list *LinkedList) Remove(node *Node) bool {
+	if node == nil {
+		return false
+	}
+
+	if list.head == nil {
+		return false
+	}
+
+	if list.head == node {
+		list.head = list.head.next
+		node.next = nil
+		list.decrementLength()
+		return true
+	}
+
+	current := list.head
+
+	for current.next != nil {
+		if current.next == node {
+			current.next = node.next
+			list.decrementLength()
+			return true
+		}
+
+		current = current.next
+	}
+
+	return false
+}
+
+func (list *LinkedList) decrementLength() {
+	list.length--
+}

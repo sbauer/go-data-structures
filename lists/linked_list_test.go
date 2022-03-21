@@ -117,3 +117,55 @@ func Test_FindShouldReturnTrueForSecondaryNodeMatch(t *testing.T) {
 	assert.NotNil(t, thirdMatch)
 	assert.Equal(t, "third", thirdMatch.data)
 }
+
+func Test_RemoveShouldReturnFalseForEmptyList(t *testing.T) {
+	list := &LinkedList{}
+	node := &Node{data: "missing"}
+
+	assert.False(t, list.Remove(node))
+}
+
+func Test_RemoveShouldReturnFalseForNilNode(t *testing.T) {
+	list := &LinkedList{}
+
+	assert.False(t, list.Remove(nil))
+}
+
+func Test_RemoveShouldReturnFalseForNoNodeMatches(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	node := &Node{data: "missing"}
+
+	assert.False(t, list.Remove(node))
+}
+
+func Test_RemoveShouldReturnTrueAfterRemovingHeadNode(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	node := list.Find("first")
+
+	assert.True(t, list.Remove(node))
+}
+
+func Test_RemoveShouldReturnTrueAfterRemovingSecondaryNode(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+	list.Append("second")
+
+	node := list.Find("second")
+
+	assert.True(t, list.Remove(node))
+}
+
+func Test_RemoveShouldDecreaseLengthAfterRemovingNode(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	node := list.Find("first")
+
+	assert.Equal(t, 1, list.length)
+	assert.True(t, list.Remove(node))
+	assert.Equal(t, 0, list.length)
+}
