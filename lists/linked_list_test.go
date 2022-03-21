@@ -50,32 +50,70 @@ func Test_AppendAddsNodeToEnd(t *testing.T) {
 	assert.Equal(t, "appended", list.head.next.data)
 }
 
-func Test_ExistsShouldReturnFalseForEmptyList(t *testing.T) {
+func Test_ContainsShouldReturnFalseForEmptyList(t *testing.T) {
 	list := &LinkedList{}
 
-	assert.False(t, list.Exists("missing"))
+	assert.False(t, list.Contains("missing"))
 }
 
-func Test_ExistsShouldReturnFalseForNoMatches(t *testing.T) {
-	list := &LinkedList{}
-	list.Insert("first")
-
-	assert.False(t, list.Exists("missing"))
-}
-
-func Test_ExistsShouldReturnTrueForHeadMatch(t *testing.T) {
+func Test_ContainsShouldReturnFalseForNoMatches(t *testing.T) {
 	list := &LinkedList{}
 	list.Insert("first")
 
-	assert.True(t, list.Exists("first"))
+	assert.False(t, list.Contains("missing"))
 }
 
-func Test_ExistsShouldReturnTrueForSecondaryNodeMatch(t *testing.T) {
+func Test_ContainsShouldReturnTrueForHeadMatch(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	assert.True(t, list.Contains("first"))
+}
+
+func Test_ContainsShouldReturnTrueForSecondaryNodeMatch(t *testing.T) {
 	list := &LinkedList{}
 	list.Insert("first")
 	list.Append("second")
 	list.Append("third")
 
-	assert.True(t, list.Exists("second"))
-	assert.True(t, list.Exists("third"))
+	assert.True(t, list.Contains("second"))
+	assert.True(t, list.Contains("third"))
+}
+
+func Test_FindShouldReturnNilForEmptyList(t *testing.T) {
+	list := &LinkedList{}
+
+	assert.Nil(t, list.Find("missing"))
+}
+
+func Test_FindShouldReturnNilForNoMatches(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	assert.Nil(t, list.Find("missing"))
+}
+
+func Test_FindShouldReturnTrueForHeadMatch(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	result := list.Find("first")
+
+	assert.NotNil(t, result)
+	assert.Equal(t, "first", result.data)
+}
+
+func Test_FindShouldReturnTrueForSecondaryNodeMatch(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+	list.Append("second")
+	list.Append("third")
+
+	secondMatch := list.Find("second")
+	thirdMatch := list.Find("third")
+
+	assert.NotNil(t, secondMatch)
+	assert.Equal(t, "second", secondMatch.data)
+	assert.NotNil(t, thirdMatch)
+	assert.Equal(t, "third", thirdMatch.data)
 }

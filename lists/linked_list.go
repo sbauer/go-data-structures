@@ -34,16 +34,26 @@ func (list *LinkedList) Append(data interface{}) {
 	list.length++
 }
 
-func (list *LinkedList) Exists(data interface{}) bool {
+func (list *LinkedList) Contains(data interface{}) bool {
+	result := list.find(data)
+
+	return result != nil
+}
+
+func (list *LinkedList) Find(data interface{}) *Node {
+	return list.find(data)
+}
+
+func (list *LinkedList) find(data interface{}) *Node {
 	current := list.head
 
 	for current != nil {
 		if current.data == data {
-			return true
+			return current
 		}
 
 		current = current.next
 	}
 
-	return false
+	return nil
 }
