@@ -33,3 +33,21 @@ func (list *LinkedList) Append(data interface{}) {
 	current.next = newNode
 	list.length++
 }
+
+func (list *LinkedList) Exists(data interface{}) bool {
+	if list.head == nil {
+		return false
+	}
+
+	current := list.head
+
+	for current != nil {
+		if current.data == data {
+			return true
+		}
+
+		current = current.next
+	}
+
+	return false
+}

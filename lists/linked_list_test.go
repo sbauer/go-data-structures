@@ -49,3 +49,33 @@ func Test_AppendAddsNodeToEnd(t *testing.T) {
 	assert.NotNil(t, list.head.next)
 	assert.Equal(t, "appended", list.head.next.data)
 }
+
+func Test_ExistsShouldReturnFalseForEmptyList(t *testing.T) {
+	list := &LinkedList{}
+
+	assert.False(t, list.Exists("missing"))
+}
+
+func Test_ExistsShouldReturnFalseForNoMatches(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	assert.False(t, list.Exists("missing"))
+}
+
+func Test_ExistsShouldReturnTrueForHeadMatch(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+
+	assert.True(t, list.Exists("first"))
+}
+
+func Test_ExistsShouldReturnTrueForSecondaryNodeMatch(t *testing.T) {
+	list := &LinkedList{}
+	list.Insert("first")
+	list.Append("second")
+	list.Append("third")
+
+	assert.True(t, list.Exists("second"))
+	assert.True(t, list.Exists("third"))
+}
