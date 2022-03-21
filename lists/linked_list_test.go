@@ -2,32 +2,24 @@ package lists
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_CreateLinkedList(t *testing.T) {
 	list := &LinkedList{}
 
-	if list == nil {
-		t.Errorf("Nil linked list")
-	}
+	assert.NotNil(t, list)
 }
 
 func Test_InsertCreatesNewHead(t *testing.T) {
 	list := &LinkedList{}
 
-	if list.head != nil {
-		t.Fatalf("Expected nil head")
-	}
-
+	assert.Nil(t, list.head)
 	list.Insert("testing")
 
-	if list.head == nil {
-		t.Fatalf("Expected non-nil head")
-	}
-
-	if list.head.data != "testing" {
-		t.Errorf("Expected head node value of testing")
-	}
+	assert.NotNil(t, list.head)
+	assert.Equal(t, "testing", list.head.data)
 }
 
 func Test_InsertMovesPreviousHeadToNext(t *testing.T) {
@@ -36,11 +28,6 @@ func Test_InsertMovesPreviousHeadToNext(t *testing.T) {
 	list.Insert("first insert")
 	list.Insert("second insert")
 
-	if list.head.data != "second insert" {
-		t.Errorf("Unexpected first node value")
-	}
-
-	if list.head.next.data != "first insert" {
-		t.Errorf("Unexpected second node value")
-	}
+	assert.Equal(t, "second insert", list.head.data)
+	assert.Equal(t, "first insert", list.head.next.data)
 }
