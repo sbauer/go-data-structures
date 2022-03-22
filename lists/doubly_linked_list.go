@@ -47,10 +47,28 @@ func (list *DoublyLinkedList) Empty() bool {
 	return list.head == nil
 }
 
-func (list *DoublyLinkedList) incrementLength() {
-	list.length++
+func (list *DoublyLinkedList) Contains(data interface{}) bool {
+	return list.find(data) != nil
 }
 
-func (list *DoublyLinkedList) decrementLength() {
+func (list *DoublyLinkedList) Find(data interface{}) *DoublyNode {
+	return list.find(data)
+}
+
+func (list *DoublyLinkedList) find(data interface{}) *DoublyNode {
+	current := list.head
+
+	for current != nil {
+		if current.data == data {
+			return current
+		}
+
+		current = current.next
+	}
+
+	return nil
+}
+
+func (list *DoublyLinkedList) incrementLength() {
 	list.length++
 }

@@ -69,3 +69,53 @@ func Test_DoublyLinkedListAppendShouldIncrementLength(t *testing.T) {
 
 	assert.Equal(t, 2, list.length)
 }
+
+func Test_DoublyLinkedListContainsShouldReturnFalseForEmptyList(t *testing.T) {
+	list := &DoublyLinkedList{}
+
+	assert.False(t, list.Contains("nothing"))
+}
+
+func Test_DoublyLinkedListContainsShouldReturnTrueForHeadMatch(t *testing.T) {
+	list := &DoublyLinkedList{}
+
+	list.Insert("first")
+	assert.True(t, list.Contains("first"))
+}
+
+func Test_DoublyLinkedListContainsShouldReturnTrueForOtherMatch(t *testing.T) {
+	list := &DoublyLinkedList{}
+
+	list.Insert("first")
+	list.Append("second")
+	list.Append("third")
+	assert.True(t, list.Contains("second"))
+}
+
+func Test_DoublyLinkedListFindShouldReturnNilForEmptyList(t *testing.T) {
+	list := &DoublyLinkedList{}
+
+	assert.Nil(t, list.Find("nothing"))
+}
+
+func Test_DoublyLinkedListFindShouldReturnNodeForHeadMatch(t *testing.T) {
+	list := &DoublyLinkedList{}
+
+	list.Insert("first")
+	result := list.Find("first")
+
+	assert.NotNil(t, result)
+	assert.Equal(t, "first", result.data)
+}
+
+func Test_DoublyLinkedListFindShouldReturnNodeForOtherMatch(t *testing.T) {
+	list := &DoublyLinkedList{}
+
+	list.Insert("first")
+	list.Append("second")
+	list.Append("third")
+	result := list.Find("second")
+
+	assert.NotNil(t, result)
+	assert.Equal(t, "second", result.data)
+}
