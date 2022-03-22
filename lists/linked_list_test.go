@@ -238,3 +238,14 @@ func Test_LengthReturnsLengthField(t *testing.T) {
 
 	assert.Equal(t, list.length, list.Length())
 }
+
+func Test_HeadReturnsHead(t *testing.T) {
+	list := &LinkedList{}
+
+	assert.Equal(t, list.head, list.Head())
+
+	list.Insert("data")
+
+	assert.Equal(t, list.head, list.Head())
+	assert.Equal(t, "data", list.Head().data)
+}

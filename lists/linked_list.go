@@ -120,6 +120,10 @@ func (list *LinkedList) Length() int {
 	return list.length
 }
 
+func (list *LinkedList) Head() *Node {
+	return list.head
+}
+
 func (list *LinkedList) decrementLength() {
 	list.length--
 }
