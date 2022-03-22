@@ -170,8 +170,9 @@ func Test_RemoveShouldReturnTrueAfterRemovingSecondaryNode(t *testing.T) {
 	list := &LinkedList{}
 	list.Insert("first")
 	list.Append("second")
+	list.Append("third")
 
-	node := list.Find("second")
+	node := list.Find("third")
 
 	assert.True(t, list.Remove(node))
 }
@@ -212,9 +213,10 @@ func Test_RemoveByValueShouldReturnTrueAfterRemovingSecondaryNode(t *testing.T) 
 	list := &LinkedList{}
 	list.Insert("first")
 	list.Append("second")
+	list.Append("third")
 
-	assert.True(t, list.RemoveByValue("second"))
-	assert.False(t, list.Contains("second"))
+	assert.True(t, list.RemoveByValue("third"))
+	assert.False(t, list.Contains("third"))
 }
 
 func Test_RemoveByValueShouldDecreaseLengthAfterRemovingNode(t *testing.T) {
