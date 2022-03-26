@@ -1,5 +1,7 @@
 package bst
 
+import "errors"
+
 type Node struct {
 	left  *Node
 	right *Node
@@ -55,4 +57,36 @@ func (tree *BinarySearchTree) find(node *Node, value int) *Node {
 	}
 
 	return node
+}
+
+func (tree *BinarySearchTree) Minimum() (int, error) {
+	if tree.root == nil {
+		return -1, errors.New("Empty tree")
+	}
+
+	return tree.minimum(tree.root), nil
+}
+
+func (tree *BinarySearchTree) minimum(node *Node) int {
+	if node.left == nil {
+		return node.value
+	}
+
+	return tree.minimum(node.left)
+}
+
+func (tree *BinarySearchTree) Maximum() (int, error) {
+	if tree.root == nil {
+		return -1, errors.New("Empty tree")
+	}
+
+	return tree.maximum(tree.root), nil
+}
+
+func (tree *BinarySearchTree) maximum(node *Node) int {
+	if node.right == nil {
+		return node.value
+	}
+
+	return tree.maximum(node.right)
 }

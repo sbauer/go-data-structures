@@ -96,3 +96,69 @@ func Test_ContainsReturnsFalseForNoMatches(t *testing.T) {
 	assert.False(t, tree.Contains(2))
 	assert.False(t, tree.Contains(11))
 }
+
+func Test_MinimumReturnsErrorForEmptyTree(t *testing.T) {
+	tree := NewBinarySearchTree()
+
+	minimum, err := tree.Minimum()
+
+	assert.Equal(t, -1, minimum)
+	assert.NotNil(t, err)
+}
+
+func Test_MinimumReturnsSingleRoot(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+
+	minimum, err := tree.Minimum()
+
+	assert.Equal(t, 5, minimum)
+	assert.Nil(t, err)
+}
+
+func Test_MinimumReturnsCorrectMinimum(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(10)
+	tree.Insert(15)
+	tree.Insert(-3)
+	tree.Insert(100)
+
+	minimum, err := tree.Minimum()
+
+	assert.Equal(t, -3, minimum)
+	assert.Nil(t, err)
+}
+
+func Test_MaximumReturnsErrorForEmptyTree(t *testing.T) {
+	tree := NewBinarySearchTree()
+
+	max, err := tree.Maximum()
+
+	assert.Equal(t, -1, max)
+	assert.NotNil(t, err)
+}
+
+func Test_MaximumReturnsSingleRoot(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+
+	max, err := tree.Maximum()
+
+	assert.Equal(t, 5, max)
+	assert.Nil(t, err)
+}
+
+func Test_MaximumReturnsCorrectMinimum(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(10)
+	tree.Insert(150)
+	tree.Insert(-3)
+	tree.Insert(100)
+
+	max, err := tree.Maximum()
+
+	assert.Equal(t, 150, max)
+	assert.Nil(t, err)
+}
