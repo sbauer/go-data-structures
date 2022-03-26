@@ -37,3 +37,62 @@ func Test_InsertPutsLargerEntryToRight(t *testing.T) {
 	assert.NotNil(t, tree.root.right)
 	assert.Equal(t, 10, tree.root.right.value)
 }
+
+func Test_FindReturnsNilForEmptyTree(t *testing.T) {
+	tree := NewBinarySearchTree()
+
+	assert.Nil(t, tree.Find(2))
+}
+
+func Test_FindReturnsNodeAtRoot(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+
+	result := tree.Find(5)
+	assert.NotNil(t, result)
+	assert.Equal(t, 5, result.value)
+}
+
+func Test_FindCanLocateInOtherLeaves(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(1)
+	tree.Insert(10)
+	tree.Insert(15)
+
+	result := tree.Find(1)
+	secondResult := tree.Find(15)
+	assert.NotNil(t, result)
+	assert.NotNil(t, secondResult)
+	assert.Equal(t, 1, result.value)
+	assert.Equal(t, 15, secondResult.value)
+}
+
+func Test_ContainsReturnsFalseForEmptyTree(t *testing.T) {
+	tree := NewBinarySearchTree()
+
+	assert.False(t, tree.Contains(5))
+}
+
+func Test_ContainsReturnsTrueForMatches(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(1)
+
+	assert.True(t, tree.Contains(5))
+	assert.True(t, tree.Contains(3))
+	assert.True(t, tree.Contains(1))
+}
+
+func Test_ContainsReturnsFalseForNoMatches(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(1)
+
+	assert.False(t, tree.Contains(6))
+	assert.False(t, tree.Contains(2))
+	assert.False(t, tree.Contains(11))
+}

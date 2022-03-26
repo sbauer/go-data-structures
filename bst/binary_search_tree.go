@@ -32,3 +32,27 @@ func (tree *BinarySearchTree) insert(target *Node, value int) *Node {
 
 	return target
 }
+
+func (tree *BinarySearchTree) Find(value int) *Node {
+	return tree.find(tree.root, value)
+}
+
+func (tree *BinarySearchTree) Contains(value int) bool {
+	result := tree.find(tree.root, value)
+
+	return result != nil
+}
+
+func (tree *BinarySearchTree) find(node *Node, value int) *Node {
+	if node == nil {
+		return nil
+	}
+
+	if value < node.value {
+		return tree.find(node.left, value)
+	} else if value > node.value {
+		return tree.find(node.right, value)
+	}
+
+	return node
+}
