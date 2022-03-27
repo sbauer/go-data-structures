@@ -90,3 +90,30 @@ func (tree *BinarySearchTree) maximum(node *Node) int {
 
 	return tree.maximum(node.right)
 }
+
+func (tree *BinarySearchTree) Delete(value int) {
+	tree.root = tree.delete(tree.root, value)
+}
+
+func (tree *BinarySearchTree) delete(node *Node, value int) *Node {
+	if node == nil {
+		return nil
+	}
+
+	if value < node.value {
+		node.left = tree.delete(node.left, value)
+	} else if value > node.value {
+		node.right = tree.delete(node.right, value)
+	} else {
+		if node.left == nil {
+			return node.right
+		} else if node.right == nil {
+			return node.left
+		}
+
+		node.value = tree.minimum(node.right)
+		node.right = tree.delete(node.right, node.value)
+	}
+
+	return node
+}

@@ -162,3 +162,166 @@ func Test_MaximumReturnsCorrectMinimum(t *testing.T) {
 	assert.Equal(t, 150, max)
 	assert.Nil(t, err)
 }
+
+func Test_DeleteOnEmptyTrueDoesntPanic(t *testing.T) {
+	tree := NewBinarySearchTree()
+	assert.NotPanics(t, func() {
+		tree.Delete(5)
+	})
+}
+
+func Test_DeleteShouldDeleteRoot(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+
+	assert.NotNil(t, tree.root)
+
+	tree.Delete(5)
+
+	assert.Nil(t, tree.root)
+}
+
+func Test_DeleteShouldRemoveLeafWithoutChildren(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(10)
+
+	assert.Equal(t, 3, tree.root.left.value)
+	tree.Delete(3)
+	assert.Nil(t, tree.root.left)
+}
+
+func Test_DeleteShouldReplaceWithRightChildIfLeftDoesntExist(t *testing.T) {
+	/*
+				5
+			  /   \
+			 3     10
+			/ \    / \
+		              15
+	*/
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(10)
+	tree.Insert(15)
+
+	assert.Equal(t, 10, tree.root.right.value)
+	assert.Equal(t, 15, tree.root.right.right.value)
+
+	tree.Delete(10)
+
+	assert.Equal(t, 15, tree.root.right.value)
+	assert.Nil(t, tree.root.right.right)
+}
+
+func Test_DeleteShouldReplaceWithLeftChildIfRightDoesntExist(t *testing.T) {
+	/*
+				5
+			  /   \
+			 3     10
+			/ \    / \
+		          9
+	*/
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(10)
+	tree.Insert(9)
+
+	assert.Equal(t, 10, tree.root.right.value)
+	assert.Equal(t, 9, tree.root.right.left.value)
+
+	tree.Delete(10)
+
+	assert.Equal(t, 9, tree.root.right.value)
+	assert.Nil(t, tree.root.right.left)
+}
+
+func Test_DeleteShouldReplaceWithRightChildIfBothExist(t *testing.T) {
+	/*
+				5
+			  /   \
+			 3     10
+			/ \    / \
+		          9  11
+	*/
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(10)
+	tree.Insert(9)
+	tree.Insert(11)
+
+	assert.Equal(t, 10, tree.root.right.value)
+	assert.Equal(t, 9, tree.root.right.left.value)
+	assert.Equal(t, 11, tree.root.right.right.value)
+
+	tree.Delete(10)
+
+	assert.Equal(t, 11, tree.root.right.value)
+	assert.Nil(t, tree.root.right.right)
+	assert.Equal(t, 9, tree.root.right.left.value)
+}
+
+func Test_DeleteShouldReplaceWithSmallestRightNodeIfBothChildrenExistWithChildren(t *testing.T) {
+	/*
+						5
+					  /   \
+					 3     10
+					/ \    / \
+				          9  15
+						 /  /  \
+		                7  13   18
+						    \
+							 14
+	*/
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(10)
+	tree.Insert(9)
+	tree.Insert(15)
+	tree.Insert(7)
+	tree.Insert(13)
+	tree.Insert(18)
+	tree.Insert(14)
+
+	assert.Equal(t, 10, tree.root.right.value)
+
+	tree.Delete(10)
+
+	assert.Equal(t, 13, tree.root.right.value)
+	assert.Equal(t, 14, tree.root.right.right.left.value)
+}
+
+func Test_DeleteShouldReplaceWithRootWithCorrectSmallestRightChild(t *testing.T) {
+	/*
+						5
+					  /   \
+					 3     10
+					/ \    / \
+				          9  15
+						 /  /  \
+		                7  13   18
+						    \
+							 14
+	*/
+	tree := NewBinarySearchTree()
+	tree.Insert(5)
+	tree.Insert(3)
+	tree.Insert(10)
+	tree.Insert(9)
+	tree.Insert(15)
+	tree.Insert(7)
+	tree.Insert(13)
+	tree.Insert(18)
+	tree.Insert(14)
+
+	assert.Equal(t, 5, tree.root.value)
+
+	tree.Delete(5)
+
+	assert.Equal(t, 7, tree.root.value)
+	assert.Nil(t, tree.root.right.left.left)
+}
